@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>رخام مصر — منصة بيع وتجارة الرخام</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Top Navigation / Role Switcher -->
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">◆</span>
+        <div>
+          <h1 class="brand-title">رخام مصر</h1>
+          <span class="brand-sub">منصة بيع الرخام والجرانيت (MVP)</span>
+        </div>
+      </div>
+
+      <nav class="role-switcher" aria-label="تبديل الأدوار">
+        <button type="button" class="role-btn active" data-role="buyer" id="btnRoleBuyer">
+          <span>المشتري (المتجر)</span>
+          <span class="nav-counter hidden" id="counterBuyer">0</span>
+        </button>
+
+        <div class="role-seller-wrap">
+          <button type="button" class="role-btn" data-role="seller" id="btnRoleSeller">
+            <span>البائع (لوحة البائع)</span>
+            <span class="nav-counter hidden" id="counterSeller">0</span>
+          </button>
+          <select id="sellerAccountSelect" class="role-select" aria-label="اختيار حساب البائع"></select>
+        </div>
+
+        <button type="button" class="role-btn" data-role="admin" id="btnRoleAdmin">
+          <span>صاحب المنصة (الأدمن)</span>
+          <span class="nav-counter hidden" id="counterAdmin">0</span>
+        </button>
+      </nav>
+
+      <div class="topbar-actions">
+        <button type="button" class="btn btn-outline btn-sm" id="btnResetData">
+          إعادة ضبط البيانات الافتراضية
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container main-content">
+    <!-- ==================== BUYER VIEW ==================== -->
+    <section id="viewBuyer" class="role-view active">
+      <div class="view-header">
+        <div>
+          <h2>متجر الرخام والجرانيت</h2>
+          <p class="muted">تصفح منتجات المصانع والمعارض المصرية واطلب الكمية المطلوبة مباشرة</p>
+        </div>
+        <div class="buyer-account-bar">
+          <label for="buyerAccountSelect" class="inline-label">الحساب الحالي:</label>
+          <select id="buyerAccountSelect" class="form-control form-control-sm"></select>
+          <span id="buyerStatusBadge" class="badge"></span>
+        </div>
+      </div>
+
+      <div id="buyerBlockedBanner" class="alert alert-danger hidden">
+        تم حظر هذا الحساب من قِبل إدارة المنصة. لا يمكنك إرسال طلبات جديدة حالياً. يرجى التواصل مع الدعم الفني.
+      </div>
+
+      <div class="tabs" role="tablist">
+        <button type="button" class="tab-btn active" data-buyer-tab="store">تصفح المنتجات</button>
+        <button type="button" class="tab-btn" data-buyer-tab="orders">
+          طلباتي <span class="tab-count" id="buyerOrdersTabCount">0</span>
+        </button>
+      </div>
+
+      <!-- Buyer Storefront Tab -->
+      <div id="buyerTabStore" class="tab-panel active">
+        <div class="card filter-bar">
+          <div class="filter-grid">
+            <div class="form-group">
+              <label for="filterSearch">بحث</label>
+              <input type="text" id="filterSearch" class="form-control" placeholder="ابحث بالاسم أو التفاصيل..." />
+            </div>
+            <div class="form-group">
+              <label for="filterType">النوع</label>
+              <select id="filterType" class="form-control">
+                <option value="">كل الأنواع</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="filterColor">اللون</label>
+              <select id="filterColor" class="form-control">
+                <option value="">كل الألوان</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="filterThickness">التخانة</label>
+              <select id="filterThickness" class="form-control">
+                <option value="">كل التخانات</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="filterSeller">البائع</label>
+              <select id="filterSeller" class="form-control">
+                <option value="">كل البائعين</option>
+              </select>
+            </div>
+            <div class="form-group filter-reset-wrap">
+              <button type="button" class="btn btn-outline btn-block" id="btnClearFilters">مسح الفلاتر</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="buyerProductGrid" class="product-grid"></div>
+      </div>
+
+      <!-- Buyer My Orders Tab -->
+      <div id="buyerTabOrders" class="tab-panel">
+        <div class="card">
+          <div class="card-header">
+            <h3>طلباتي</h3>
+          </div>
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>رقم الطلب</th>
+                  <th>المنتج والمواصفات</th>
+                  <th>البائع</th>
+                  <th>عدد الأمتار</th>
+                  <th>السعر الصافي</th>
+                  <th>طريقة الاستلام</th>
+                  <th>حالة الطلب</th>
+                  <th>حالة الدفع</th>
+                </tr>
+              </thead>
+              <tbody id="buyerOrdersBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SELLER VIEW ==================== -->
+    <section id="viewSeller" class="role-view">
+      <div class="view-header">
+        <div>
+          <h2 id="sellerTitle">لوحة البائع</h2>
+          <p class="muted" id="sellerSubtitle">إدارة منتجاتك، الطلبات الواردة، وتسوية عمولة المنصة</p>
+        </div>
+        <div class="seller-header-actions">
+          <button type="button" class="btn btn-outline" id="btnOpenRegisterSeller">+ تسجيل بائع جديد</button>
+        </div>
+      </div>
+
+      <div class="card mb-20 payment-settings-card">
+        <div class="payment-settings-row">
+          <strong>بيانات استلام الدفع الإلكتروني (تظهر للمشتري):</strong>
+          <div class="payment-settings-inputs">
+            <div class="form-group-inline">
+              <label for="sellerVodafoneInput">فودافون كاش:</label>
+              <input type="text" id="sellerVodafoneInput" class="form-control form-control-sm" placeholder="010xxxxxxxx" />
+            </div>
+            <div class="form-group-inline">
+              <label for="sellerInstapayInput">إنستا باي:</label>
+              <input type="text" id="sellerInstapayInput" class="form-control form-control-sm" placeholder="name@instapay" />
+            </div>
+            <button type="button" class="btn btn-primary btn-sm" id="btnSaveSellerPayment">حفظ بيانات الدفع</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="tabs" role="tablist">
+        <button type="button" class="tab-btn active" data-seller-tab="products">المنتجات</button>
+        <button type="button" class="tab-btn" data-seller-tab="orders">
+          الطلبات الواردة <span class="tab-count" id="sellerOrdersTabCount">0</span>
+        </button>
+        <button type="button" class="tab-btn" data-seller-tab="commissions">نسبة سحب / تحصيل المنصة</button>
+      </div>
+
+      <!-- Seller Products Tab -->
+      <div id="sellerTabProducts" class="tab-panel active">
+        <div class="section-toolbar">
+          <h3>منتجاتي</h3>
+          <button type="button" class="btn btn-primary" id="btnOpenAddProduct">+ إضافة منتج جديد</button>
+        </div>
+        <div id="sellerProductsGrid" class="seller-products-grid"></div>
+      </div>
+
+      <!-- Seller Orders Tab -->
+      <div id="sellerTabOrders" class="tab-panel">
+        <div class="card">
+          <div class="card-header">
+            <h3>الطلبات الواردة</h3>
+          </div>
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>رقم الطلب</th>
+                  <th>المنتج والمواصفات</th>
+                  <th>الكمية والسعر الصافي</th>
+                  <th>الاستلام والتواصل</th>
+                  <th>الدفع والإيصال</th>
+                  <th>الحالة</th>
+                  <th>الإجراءات</th>
+                </tr>
+              </thead>
+              <tbody id="sellerOrdersBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Seller Commissions Tab -->
+      <div id="sellerTabCommissions" class="tab-panel">
+        <div class="card">
+          <div class="card-header">
+            <h3>تسوية عمولات المنصة (للأوردرات المقبولة)</h3>
+          </div>
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>رقم الأوردر</th>
+                  <th>المنتج</th>
+                  <th>السعر الصافي</th>
+                  <th>عمولة المنصة</th>
+                  <th>حالة السداد</th>
+                  <th>الإجراء</th>
+                </tr>
+              </thead>
+              <tbody id="sellerCommissionsBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== ADMIN VIEW ==================== -->
+    <section id="viewAdmin" class="role-view">
+      <div class="view-header">
+        <div>
+          <h2>لوحة تحكم صاحب المنصة (الأدمن)</h2>
+          <p class="muted">إدارة نسبة العمولة، المستخدمين، الأرباح، والبائعين</p>
+        </div>
+        <div class="card commission-rate-card">
+          <label for="adminCommissionInput">نسبة عمولة المنصة (%):</label>
+          <div class="commission-input-group">
+            <input type="number" id="adminCommissionInput" class="form-control form-control-sm" min="0" max="100" step="0.5" />
+            <button type="button" class="btn btn-primary btn-sm" id="btnSaveCommissionRate">حفظ النسبة</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card mb-20 payment-settings-card">
+        <div class="payment-settings-row">
+          <strong>حسابات تحصيل عمولة المنصة (تظهر للبائعين):</strong>
+          <div class="payment-settings-inputs">
+            <div class="form-group-inline">
+              <label for="adminVodafoneInput">فودافون كاش:</label>
+              <input type="text" id="adminVodafoneInput" class="form-control form-control-sm" placeholder="010xxxxxxxx" />
+            </div>
+            <div class="form-group-inline">
+              <label for="adminInstapayInput">إنستا باي:</label>
+              <input type="text" id="adminInstapayInput" class="form-control form-control-sm" placeholder="admin@instapay" />
+            </div>
+            <button type="button" class="btn btn-primary btn-sm" id="btnSaveAdminPayment">حفظ بيانات الدفع</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="tabs" role="tablist">
+        <button type="button" class="tab-btn active" data-admin-tab="users">إدارة المستخدمين</button>
+        <button type="button" class="tab-btn" data-admin-tab="profits">
+          المكاسب والعمولات <span class="tab-count" id="adminConfirmTabCount">0</span>
+        </button>
+        <button type="button" class="tab-btn" data-admin-tab="sellers">البائعين وطلباتهم</button>
+      </div>
+
+      <!-- Admin Users Tab -->
+      <div id="adminTabUsers" class="tab-panel active">
+        <div class="card">
+          <div class="card-header">
+            <h3>قائمة المستخدمين (المشترين)</h3>
+          </div>
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>الاسم</th>
+                  <th>رقم التليفون</th>
+                  <th>العنوان</th>
+                  <th>حالة الحساب</th>
+                  <th>الإجراءات</th>
+                </tr>
+              </thead>
+              <tbody id="adminUsersBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Admin Profits & Commissions Tab -->
+      <div id="adminTabProfits" class="tab-panel">
+        <div class="stats-grid">
+          <div class="card stat-card">
+            <span class="stat-label">إجمالي مكاسب المنصة</span>
+            <strong class="stat-value" id="statTotalProfit">0 ج.م</strong>
+          </div>
+          <div class="card stat-card">
+            <span class="stat-label">المحصل</span>
+            <strong class="stat-value text-success" id="statCollectedProfit">0 ج.م</strong>
+          </div>
+          <div class="card stat-card">
+            <span class="stat-label">بانتظار التحصيل</span>
+            <strong class="stat-value text-warning" id="statPendingProfit">0 ج.م</strong>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>تفاصيل عمولات البيعات المقبولة</h3>
+          </div>
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>رقم الأوردر</th>
+                  <th>إجمالي سعر الأوردر</th>
+                  <th>النسبة (%)</th>
+                  <th>قيمة مكسب المنصة</th>
+                  <th>البائع</th>
+                  <th>وسيلة الدفع والإيصال</th>
+                  <th>حالة العمولة</th>
+                  <th>التواصل والتحصيل</th>
+                </tr>
+              </thead>
+              <tbody id="adminCommissionsBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Admin Sellers & Orders Tab -->
+      <div id="adminTabSellers" class="tab-panel">
+        <div class="card mb-20">
+          <div class="card-header">
+            <h3>إنشاء حساب بائع جديد</h3>
+          </div>
+          <form id="adminCreateSellerForm" class="form-grid-5">
+            <div class="form-group">
+              <label for="newSellerName">اسم البائع / المصنع</label>
+              <input type="text" id="newSellerName" class="form-control" required placeholder="مثال: مصنع الفراعنة" />
+            </div>
+            <div class="form-group">
+              <label for="newSellerPhone">رقم التليفون</label>
+              <input type="text" id="newSellerPhone" class="form-control" required placeholder="01012345678" />
+            </div>
+            <div class="form-group">
+              <label for="newSellerAddress">العنوان</label>
+              <input type="text" id="newSellerAddress" class="form-control" required placeholder="شق التعبان، القاهرة" />
+            </div>
+            <div class="form-group">
+              <label for="newSellerUsername">اسم المستخدم</label>
+              <input type="text" id="newSellerUsername" class="form-control" required placeholder="pharaoh_marble" />
+            </div>
+            <div class="form-group">
+              <label for="newSellerPassword">كلمة المرور</label>
+              <input type="password" id="newSellerPassword" class="form-control" required placeholder="••••••" />
+            </div>
+            <div class="form-group form-submit-full">
+              <button type="submit" class="btn btn-primary">إنشاء حساب البائع</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>مراقبة جميع الطلبات</h3>
+          </div>
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>رقم الطلب</th>
+                  <th>المشتري</th>
+                  <th>البائع</th>
+                  <th>المنتج والأمتار</th>
+                  <th>السعر الصافي</th>
+                  <th>حالة الدفع</th>
+                  <th>الحالة</th>
+                  <th>تنبيه البائع</th>
+                </tr>
+              </thead>
+              <tbody id="adminAllOrdersBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ==================== MODALS ==================== -->
+
+  <!-- Product Details & Order Modal (Buyer) -->
+  <div id="productDetailModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="detailTitle">
+    <div class="modal-backdrop" data-close-modal="productDetailModal"></div>
+    <div class="modal-dialog modal-lg">
+      <div class="modal-header">
+        <h3 id="detailTitle">تفاصيل المنتج</h3>
+        <button type="button" class="modal-close" data-close-modal="productDetailModal" aria-label="إغلاق">×</button>
+      </div>
+      <div class="modal-body" id="productDetailBody"></div>
+    </div>
+  </div>
+
+  <!-- Add / Edit Product Modal (Seller) -->
+  <div id="productFormModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="productFormTitle">
+    <div class="modal-backdrop" data-close-modal="productFormModal"></div>
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 id="productFormTitle">إضافة منتج جديد</h3>
+        <button type="button" class="modal-close" data-close-modal="productFormModal" aria-label="إغلاق">×</button>
+      </div>
+      <form id="sellerProductForm" class="modal-body">
+        <input type="hidden" id="prodEditId" />
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label for="prodType">النوع *</label>
+            <input type="text" id="prodType" class="form-control" required placeholder="مثال: جلالة فص" />
+          </div>
+          <div class="form-group">
+            <label for="prodColor">اللون *</label>
+            <input type="text" id="prodColor" class="form-control" required placeholder="مثال: بيج فاتح" />
+          </div>
+          <div class="form-group">
+            <label for="prodThickness">التخانة *</label>
+            <input type="text" id="prodThickness" class="form-control" required placeholder="مثال: 2 سم" />
+          </div>
+          <div class="form-group">
+            <label for="prodPrice">سعر المتر (ج.م) *</label>
+            <input type="number" id="prodPrice" class="form-control" required min="1" step="1" placeholder="850" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="prodDetails">تفاصيل إضافية</label>
+          <textarea id="prodDetails" class="form-control" rows="2" placeholder="لامع ممتاز، مناسب للأرضيات والواجهات..."></textarea>
+        </div>
+        <div class="form-group">
+          <label for="prodExternalLink">رابط خارجي (فيسبوك / إنستجرام / فيديو / واتساب)</label>
+          <input type="url" id="prodExternalLink" class="form-control" placeholder="https://..." />
+        </div>
+        <div class="form-group">
+          <label for="prodImageUrl">رابط الصورة الرئيسية (أو ارفع صورة من جهازك)</label>
+          <input type="text" id="prodImageUrl" class="form-control" placeholder="https://... أو اتركه فارغاً للصورة الافتراضية" />
+        </div>
+        <div class="form-group">
+          <label for="prodImageFile">رفع صورة من الجهاز (Base64)</label>
+          <input type="file" id="prodImageFile" class="form-control" accept="image/*" />
+          <div id="prodImagePreviewWrap" class="image-preview-wrap hidden">
+            <img id="prodImagePreview" src="" alt="معاينة الصورة" />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" data-close-modal="productFormModal">إلغاء</button>
+          <button type="submit" class="btn btn-primary">حفظ المنتج</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Product Reviews Modal (Seller) -->
+  <div id="sellerReviewsModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="sellerReviewsTitle">
+    <div class="modal-backdrop" data-close-modal="sellerReviewsModal"></div>
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 id="sellerReviewsTitle">تقييمات المنتج</h3>
+        <button type="button" class="modal-close" data-close-modal="sellerReviewsModal" aria-label="إغلاق">×</button>
+      </div>
+      <div class="modal-body" id="sellerReviewsBody"></div>
+    </div>
+  </div>
+
+  <!-- Register Seller Modal (Seller Role) -->
+  <div id="registerSellerModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="registerSellerTitle">
+    <div class="modal-backdrop" data-close-modal="registerSellerModal"></div>
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 id="registerSellerTitle">تسجيل حساب بائع جديد</h3>
+        <button type="button" class="modal-close" data-close-modal="registerSellerModal" aria-label="إغلاق">×</button>
+      </div>
+      <form id="registerSellerForm" class="modal-body">
+        <div class="form-group">
+          <label for="regSellerName">اسم البائع / المصنع *</label>
+          <input type="text" id="regSellerName" class="form-control" required placeholder="مثال: مصنع الأهرام للرخام" />
+        </div>
+        <div class="form-group">
+          <label for="regSellerPhone">رقم التليفون *</label>
+          <input type="text" id="regSellerPhone" class="form-control" required placeholder="01098765432" />
+        </div>
+        <div class="form-group">
+          <label for="regSellerAddress">العنوان *</label>
+          <input type="text" id="regSellerAddress" class="form-control" required placeholder="المنطقة الصناعية، شق التعبان" />
+        </div>
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label for="regSellerUsername">اسم المستخدم *</label>
+            <input type="text" id="regSellerUsername" class="form-control" required />
+          </div>
+          <div class="form-group">
+            <label for="regSellerPassword">كلمة المرور *</label>
+            <input type="password" id="regSellerPassword" class="form-control" required />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" data-close-modal="registerSellerModal">إلغاء</button>
+          <button type="submit" class="btn btn-primary">تسجيل والدخول</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Commission Settlement Modal (Seller) -->
+  <div id="commissionSettleModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="commissionSettleTitle">
+    <div class="modal-backdrop" data-close-modal="commissionSettleModal"></div>
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 id="commissionSettleTitle">سداد عمولة المنصة</h3>
+        <button type="button" class="modal-close" data-close-modal="commissionSettleModal" aria-label="إغلاق">×</button>
+      </div>
+      <form id="commissionSettleForm" class="modal-body">
+        <input type="hidden" id="settleOrderId" />
+        <div class="order-summary-box">
+          <span>المبلغ المطلوب تحويله للمنصة:</span>
+          <strong id="settleAmountDisplay">0 ج.م</strong>
+        </div>
+
+        <div class="form-group">
+          <label>اختر وسيلة الدفع *</label>
+          <div class="radio-row">
+            <label class="radio-card">
+              <input type="radio" name="settleMethod" value="vodafone" checked />
+              <span>فودافون كاش</span>
+            </label>
+            <label class="radio-card">
+              <input type="radio" name="settleMethod" value="instapay" />
+              <span>إنستا باي</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="payment-info-box" id="settleAdminAccountBox"></div>
+
+        <div class="form-group">
+          <label for="settleReceiptFile">صورة إيصال التحويل (إلزامي) *</label>
+          <input type="file" id="settleReceiptFile" class="form-control" accept="image/*" required />
+          <div id="settleReceiptPreviewWrap" class="image-preview-wrap hidden">
+            <img id="settleReceiptPreview" src="" alt="معاينة الإيصال" />
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" data-close-modal="commissionSettleModal">إلغاء</button>
+          <button type="submit" class="btn btn-primary">إرسال طلب التأكيد</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Receipt Preview Modal (Shared) -->
+  <div id="receiptPreviewModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="receiptPreviewTitle">
+    <div class="modal-backdrop" data-close-modal="receiptPreviewModal"></div>
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 id="receiptPreviewTitle">معاينة صورة الإيصال</h3>
+        <button type="button" class="modal-close" data-close-modal="receiptPreviewModal" aria-label="إغلاق">×</button>
+      </div>
+      <div class="modal-body receipt-preview-body">
+        <p class="muted mb-20" id="receiptPreviewMeta"></p>
+        <img id="receiptPreviewImg" src="" alt="صورة الإيصال" class="receipt-full-img" />
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
