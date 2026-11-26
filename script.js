@@ -1439,10 +1439,77 @@
     }).join('');
   }
 
+  let statsAnimated = false;
+
+  function animateCountUp(el, target) {
+    const endVal = Number(target) || 0;
+    const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduced || endVal <= 0) {
+      el.textContent = endVal;
+      return;
+    }
+    const duration = 900;
+    const start = performance.now();
+    function tick(now) {
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = Math.round(eased * endVal);
+      if (progress < 1) {
+        requestAnimationFrame(tick);
+      } else {
+        el.textContent = endVal;
+      }
+    }
+    requestAnimationFrame(tick);
+  }
+
+  function setupHomeObservers() {
+    const reveals = document.querySelectorAll('#homePageView .reveal');
+    if ('IntersectionObserver' in window) {
+      const revealObs = new IntersectionObserver((entries, obs) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            obs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+      reveals.forEach((el) => revealObs.observe(el));
+
+      const statsEl = document.getElementById('statsStrip');
+      if (statsEl) {
+        const statsObs = new IntersectionObserver((entries, obs) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting && !statsAnimated) {
+              statsAnimated = true;
+              document.querySelectorAll('#statsStrip .strip-stat-num').forEach((numEl) => {
+                animateCountUp(numEl, numEl.getAttribute('data-target'));
+              });
+              obs.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.2 });
+        statsObs.observe(statsEl);
+      }
+    } else {
+      reveals.forEach((el) => el.classList.add('is-visible'));
+    }
+  }
+
   function renderHomePage() {
-    document.getElementById('homeStatProducts').textContent = state.products.length;
-    document.getElementById('homeStatSellers').textContent = state.sellers.length;
-    document.getElementById('homeStatOrders').textContent = state.orders.length;
+    const pCount = state.products.length;
+    const sCount = state.sellers.length;
+    const oCount = state.orders.length;
+
+    const elP = document.getElementById('homeStatProducts');
+    const elS = document.getElementById('homeStatSellers');
+    const elO = document.getElementById('homeStatOrders');
+    elP.setAttribute('data-target', pCount);
+    elS.setAttribute('data-target', sCount);
+    elO.setAttribute('data-target', oCount);
+    elP.textContent = pCount;
+    elS.textContent = sCount;
+    elO.textContent = oCount;
 
     const featuredGrid = document.getElementById('homeFeaturedGrid');
     const featured = state.products.slice(0, 4);
@@ -1451,20 +1518,19 @@
       return;
     }
 
-    featuredGrid.innerHTML = featured.map((p) => {
+    featuredGrid.innerHTML = featured.map((p, idx) => {
       const seller = getSellerById(p.sellerId);
+      const { avg, count } = getAvgRating(p);
       return `
-        <article class="product-card">
-          <img class="product-thumb" src="${escapeHtml(p.image)}" alt="${escapeHtml(p.type)}" />
-          <div class="product-body">
+        <article class="home-product-card reveal is-visible" style="--delay: ${idx * 80}ms;" data-home-product="${escapeHtml(p.id)}">
+          <div class="home-product-thumb-wrap">
+            <img class="home-product-thumb" src="${escapeHtml(p.image)}" alt="${escapeHtml(p.type)}" />
+            <span class="home-price-badge">${formatMoney(p.pricePerMeter)} / م²</span>
+          </div>
+          <div class="home-product-body">
             <span class="product-seller">${escapeHtml(seller ? seller.name : 'بائع غير معروف')}</span>
             <h3 class="product-title">${escapeHtml(p.type)}</h3>
-            <div class="product-meta-row">
-              <span class="product-price">${formatMoney(p.pricePerMeter)} <small class="muted">/ م²</small></span>
-            </div>
-            <button type="button" class="btn btn-outline btn-block" data-home-product="${escapeHtml(p.id)}">
-              عرض المنتج والطلب
-            </button>
+            <div class="product-rating">${count > 0 ? `${renderStars(avg)} (${avg})` : 'جديد في المعرض'}</div>
           </div>
         </article>
       `;
@@ -1474,13 +1540,17 @@
   function showHomePage() {
     document.getElementById('homePageView').classList.remove('hidden');
     document.getElementById('demoAppView').classList.add('hidden');
+    statsAnimated = false;
     renderHomePage();
+    setupHomeObservers();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   function enterDemoApp(targetRole) {
     document.getElementById('homePageView').classList.add('hidden');
     document.getElementById('demoAppView').classList.remove('hidden');
+    const drawer = document.getElementById('homeMobileDrawer');
+    if (drawer) drawer.classList.remove('open');
     switchRole(targetRole || state.activeRole || 'buyer');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
@@ -1504,6 +1574,28 @@
     document.getElementById('btnHomeAllProducts').addEventListener('click', () => enterDemoApp('buyer'));
     document.getElementById('btnHomeSellerPanel').addEventListener('click', () => enterDemoApp('seller'));
     document.getElementById('btnBackToHome').addEventListener('click', showHomePage);
+
+    // Home Mobile Hamburger Drawer
+    const mobileMenuBtn = document.getElementById('btnHomeMobileMenu');
+    const mobileDrawer = document.getElementById('homeMobileDrawer');
+    mobileMenuBtn.addEventListener('click', () => {
+      const isOpen = mobileDrawer.classList.toggle('open');
+      mobileMenuBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+    document.querySelectorAll('.home-mobile-link').forEach((link) => {
+      link.addEventListener('click', () => {
+        mobileDrawer.classList.remove('open');
+        mobileMenuBtn.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    // Hero Image Offline SVG Fallback
+    const heroImg = document.getElementById('heroMarbleImg');
+    if (heroImg) {
+      heroImg.addEventListener('error', () => {
+        heroImg.src = makeMarbleSvg('#EDE2D1', '#B08D57', '#8A795D', 'رخام مصر الفاخر');
+      }, { once: true });
+    }
 
     // Role switching
     document.querySelectorAll('.role-btn').forEach((btn) => {
