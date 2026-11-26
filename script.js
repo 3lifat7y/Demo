@@ -1439,7 +1439,54 @@
     }).join('');
   }
 
+  function renderHomePage() {
+    document.getElementById('homeStatProducts').textContent = state.products.length;
+    document.getElementById('homeStatSellers').textContent = state.sellers.length;
+    document.getElementById('homeStatOrders').textContent = state.orders.length;
+
+    const featuredGrid = document.getElementById('homeFeaturedGrid');
+    const featured = state.products.slice(0, 4);
+    if (featured.length === 0) {
+      featuredGrid.innerHTML = '<div class="empty-state">لا توجد منتجات مضافة حالياً.</div>';
+      return;
+    }
+
+    featuredGrid.innerHTML = featured.map((p) => {
+      const seller = getSellerById(p.sellerId);
+      return `
+        <article class="product-card">
+          <img class="product-thumb" src="${escapeHtml(p.image)}" alt="${escapeHtml(p.type)}" />
+          <div class="product-body">
+            <span class="product-seller">${escapeHtml(seller ? seller.name : 'بائع غير معروف')}</span>
+            <h3 class="product-title">${escapeHtml(p.type)}</h3>
+            <div class="product-meta-row">
+              <span class="product-price">${formatMoney(p.pricePerMeter)} <small class="muted">/ م²</small></span>
+            </div>
+            <button type="button" class="btn btn-outline btn-block" data-home-product="${escapeHtml(p.id)}">
+              عرض المنتج والطلب
+            </button>
+          </div>
+        </article>
+      `;
+    }).join('');
+  }
+
+  function showHomePage() {
+    document.getElementById('homePageView').classList.remove('hidden');
+    document.getElementById('demoAppView').classList.add('hidden');
+    renderHomePage();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function enterDemoApp(targetRole) {
+    document.getElementById('homePageView').classList.add('hidden');
+    document.getElementById('demoAppView').classList.remove('hidden');
+    switchRole(targetRole || state.activeRole || 'buyer');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
   function renderAll() {
+    renderHomePage();
     renderAccountSelectors();
     renderCounters();
     renderBuyerView();
@@ -1449,6 +1496,15 @@
 
   // ==================== EVENT LISTENERS ====================
   function bindEvents() {
+    // Home Page Navigation
+    document.getElementById('btnNavDashboards').addEventListener('click', () => enterDemoApp());
+    document.getElementById('btnHeroDashboards').addEventListener('click', () => enterDemoApp());
+    document.getElementById('btnFooterDashboards').addEventListener('click', () => enterDemoApp());
+    document.getElementById('btnHeroBrowse').addEventListener('click', () => enterDemoApp('buyer'));
+    document.getElementById('btnHomeAllProducts').addEventListener('click', () => enterDemoApp('buyer'));
+    document.getElementById('btnHomeSellerPanel').addEventListener('click', () => enterDemoApp('seller'));
+    document.getElementById('btnBackToHome').addEventListener('click', showHomePage);
+
     // Role switching
     document.querySelectorAll('.role-btn').forEach((btn) => {
       btn.addEventListener('click', () => switchRole(btn.dataset.role));
@@ -1694,6 +1750,14 @@
 
     // Delegated Click Actions across views
     document.addEventListener('click', (e) => {
+      const homeProdBtn = e.target.closest('[data-home-product]');
+      if (homeProdBtn) {
+        const pid = homeProdBtn.getAttribute('data-home-product');
+        enterDemoApp('buyer');
+        openProductDetail(pid);
+        return;
+      }
+
       const openProdBtn = e.target.closest('[data-open-product]');
       if (openProdBtn) {
         openProductDetail(openProdBtn.getAttribute('data-open-product'));
@@ -1856,4 +1920,5 @@
   // Initialize
   bindEvents();
   switchRole(state.activeRole || 'buyer');
+  showHomePage();
 })();

@@ -10,6 +10,169 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <!-- ==================== HOME / LANDING PAGE ==================== -->
+  <div id="homePageView">
+    <header class="topbar home-navbar">
+      <div class="container topbar-inner">
+        <a href="#heroSection" class="brand">
+          <span class="brand-mark" aria-hidden="true">◆</span>
+          <div>
+            <span class="brand-title">رخام مصر</span>
+            <span class="brand-sub">سوق الرخام والجرانيت المباشر</span>
+          </div>
+        </a>
+
+        <nav class="home-nav-links" aria-label="روابط الصفحة الرئيسية">
+          <a href="#heroSection" class="home-nav-link">الرئيسية</a>
+          <a href="#servicesSection" class="home-nav-link">خدماتنا</a>
+          <a href="#howItWorksSection" class="home-nav-link">كيف نعمل</a>
+          <a href="#featuredProductsSection" class="home-nav-link">أبرز المنتجات</a>
+        </nav>
+
+        <div class="home-nav-cta">
+          <button type="button" class="btn btn-primary" id="btnNavDashboards">لوحات التحكم</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="heroSection" class="home-hero">
+      <div class="container home-hero-grid">
+        <div class="home-hero-content">
+          <span class="badge badge-neutral mb-20">أول سوق إلكتروني للرخام في مصر</span>
+          <h1 class="home-hero-title">اربط مشروعك بمصانع ومعارض الرخام في مصر مباشرة</h1>
+          <p class="home-hero-desc">
+            اختر نوع الرخام والتخانة وعدد الأمتار المطلوبة واعرف السعر الصافي فوراً، مع خيارات دفع مرنة (فودافون كاش / إنستا باي / عند الاستلام) وتواصل مباشر مع البائع.
+          </p>
+          <div class="home-hero-actions">
+            <button type="button" class="btn btn-primary" id="btnHeroBrowse">تصفح الرخام الآن</button>
+            <button type="button" class="btn btn-outline" id="btnHeroDashboards">الدخول للوحات التحكم</button>
+          </div>
+        </div>
+
+        <div class="card home-stats-card">
+          <h3 class="home-stats-title">إحصائيات حية من المنصة</h3>
+          <div class="home-stats-list">
+            <div class="home-stat-item">
+              <span class="muted">منتجات الرخام المتاحة</span>
+              <strong id="homeStatProducts">0</strong>
+            </div>
+            <div class="home-stat-item">
+              <span class="muted">المعارض والمصانع المسجلة</span>
+              <strong id="homeStatSellers">0</strong>
+            </div>
+            <div class="home-stat-item">
+              <span class="muted">إجمالي الطلبات على المنصة</span>
+              <strong id="homeStatOrders">0</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="servicesSection" class="home-section">
+      <div class="container">
+        <div class="home-section-head">
+          <h2>خدماتنا ومميزات المنصة</h2>
+          <p class="muted">كل ما تحتاجه لشراء أو بيع الرخام والجرانيت بوضوح وسرعة</p>
+        </div>
+        <div class="home-services-grid">
+          <article class="card home-feature-card">
+            <h3>معارض ومصانع موثوقة</h3>
+            <p class="muted">تصفح أنواع الرخام المصري والمستورد من أكبر المعارض في مكان واحد.</p>
+          </article>
+          <article class="card home-feature-card">
+            <h3>تسعير فوري وشفاف</h3>
+            <p class="muted">حدد عدد الأمتار والمواصفات واعرف السعر الصافي للرخام لحظياً.</p>
+          </article>
+          <article class="card home-feature-card">
+            <h3>دفع إلكتروني آمن ومرن</h3>
+            <p class="muted">ادفع عبر فودافون كاش أو إنستا باي برفع الإيصال، أو بالاتفاق المباشر مع البائع.</p>
+          </article>
+          <article class="card home-feature-card">
+            <h3>تواصل مباشر وتوصيل مرن</h3>
+            <p class="muted">اختر الاستلام الذاتي أو التوصيل وتواصل مع البائع مباشرة عبر واتساب أو الهاتف.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="howItWorksSection" class="home-section home-section-alt">
+      <div class="container">
+        <div class="home-section-head">
+          <h2>كيف تعمل المنصة</h2>
+          <p class="muted">ثلاث خطوات بسيطة من التصفح وحتى استلام الرخام</p>
+        </div>
+        <div class="home-steps-grid">
+          <article class="card home-step-card">
+            <span class="step-num">01</span>
+            <h3>تصفح واختر رخامك</h3>
+            <p class="muted">فلتر حسب النوع واللون والتخانة وشاهد تقييمات المشترين والصور الإضافية.</p>
+          </article>
+          <article class="card home-step-card">
+            <span class="step-num">02</span>
+            <h3>أرسل طلبك بسهولة</h3>
+            <p class="muted">حدد الأمتار وطريقة الاستلام والدفع في أقل من دقيقة.</p>
+          </article>
+          <article class="card home-step-card">
+            <span class="step-num">03</span>
+            <h3>تأكيد وتواصل مباشر</h3>
+            <p class="muted">يقبل البائع طلبك ويتواصل معك فوراً لتأكيد التسليم أو التوصيل.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Products Section -->
+    <section id="featuredProductsSection" class="home-section">
+      <div class="container">
+        <div class="section-toolbar">
+          <div>
+            <h2>أحدث منتجات الرخام</h2>
+            <p class="muted">نماذج حقيقية مسحوبة مباشرة من معارض المنصة</p>
+          </div>
+          <button type="button" class="btn btn-outline" id="btnHomeAllProducts">عرض كل المنتجات</button>
+        </div>
+        <div id="homeFeaturedGrid" class="home-featured-grid"></div>
+      </div>
+    </section>
+
+    <!-- Seller CTA Banner -->
+    <section class="home-section home-cta-section">
+      <div class="container">
+        <div class="card home-cta-card">
+          <div>
+            <h2>هل تملك مصنع أو معرض رخام؟</h2>
+            <p class="muted">اعرض منتجاتك لآلاف المشترين وأدر طلباتك وعمولاتك من لوحة تحكم متكاملة.</p>
+          </div>
+          <button type="button" class="btn btn-primary" id="btnHomeSellerPanel">افتح لوحة البائع</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="home-footer">
+      <div class="container home-footer-inner">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true">◆</span>
+          <strong>رخام مصر</strong>
+        </div>
+        <nav class="home-footer-links" aria-label="روابط سريعة">
+          <a href="#heroSection">الرئيسية</a>
+          <a href="#servicesSection">خدماتنا</a>
+          <a href="#howItWorksSection">كيف نعمل</a>
+          <a href="#featuredProductsSection">أبرز المنتجات</a>
+          <button type="button" class="link-btn" id="btnFooterDashboards">لوحات التحكم</button>
+        </nav>
+        <p class="muted">© 2026 رخام مصر — جميع الحقوق محفوظة</p>
+      </div>
+    </footer>
+  </div>
+
+  <!-- ==================== INTERACTIVE DEMO APP ==================== -->
+  <div id="demoAppView" class="hidden">
   <!-- Top Navigation / Role Switcher -->
   <header class="topbar">
     <div class="container topbar-inner">
@@ -42,6 +205,9 @@
       </nav>
 
       <div class="topbar-actions">
+        <button type="button" class="btn btn-outline btn-sm" id="btnBackToHome">
+          الصفحة الرئيسية
+        </button>
         <button type="button" class="btn btn-outline btn-sm" id="btnResetData">
           إعادة ضبط البيانات الافتراضية
         </button>
@@ -402,6 +568,7 @@
       </div>
     </section>
   </main>
+  </div>
 
   <!-- ==================== MODALS ==================== -->
 
