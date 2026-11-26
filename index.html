@@ -7,12 +7,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css?v=4" />
 </head>
 <body>
   <!-- ==================== HOME / LANDING PAGE ==================== -->
-  <div id="homePageView">
-    <!-- Compact 64px Navbar -->
+  <div id="home-view">
+    <!-- Compact 60px Navbar -->
     <header class="home-navbar">
       <div class="container home-navbar-inner">
         <a href="#heroSection" class="brand">
@@ -25,15 +25,15 @@
 
         <nav class="home-nav-links" aria-label="روابط الصفحة الرئيسية">
           <a href="#heroSection" class="home-nav-link">الرئيسية</a>
+          <a href="#rolesSection" class="home-nav-link">لوحات التحكم</a>
           <a href="#servicesSection" class="home-nav-link">خدماتنا</a>
-          <a href="#howItWorksSection" class="home-nav-link">كيف نعمل</a>
           <a href="#featuredProductsSection" class="home-nav-link">أبرز المنتجات</a>
         </nav>
 
         <div class="home-nav-actions">
-          <button type="button" class="btn home-btn-primary btn-sm" id="btnNavDashboards">لوحات التحكم</button>
+          <button type="button" class="btn home-btn-primary btn-sm" id="btnNavDashboards" data-open-demo="buyer">لوحات التحكم</button>
           <button type="button" class="home-hamburger" id="btnHomeMobileMenu" aria-label="فتح القائمة" aria-expanded="false">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
               <line x1="3" y1="6" x2="21" y2="6"></line>
               <line x1="3" y1="12" x2="21" y2="12"></line>
               <line x1="3" y1="18" x2="21" y2="18"></line>
@@ -46,6 +46,7 @@
       <div id="homeMobileDrawer" class="home-mobile-drawer">
         <div class="container home-mobile-drawer-inner">
           <a href="#heroSection" class="home-mobile-link">الرئيسية</a>
+          <a href="#rolesSection" class="home-mobile-link">لوحات التحكم</a>
           <a href="#servicesSection" class="home-mobile-link">خدماتنا</a>
           <a href="#howItWorksSection" class="home-mobile-link">كيف نعمل</a>
           <a href="#featuredProductsSection" class="home-mobile-link">أبرز المنتجات</a>
@@ -63,11 +64,11 @@
           </div>
           <h1 class="home-hero-title">اربط مشروعك بمصانع ومعارض الرخام في مصر مباشرة</h1>
           <p class="home-hero-desc">
-            اختر نوع الرخام والتخانة وعدد الأمتار المطلوبة واعرف السعر الصافي فوراً، مع خيارات دفع مرنة وتواصل مباشر مع المصانع بدون وسطاء.
+            اختر النوع والتخانة وعدد الأمتار واعرف السعر الصافي فوراً، مع دفع إلكتروني مرن وتواصل مباشر مع المصانع.
           </p>
           <div class="home-hero-actions">
-            <button type="button" class="btn home-btn-primary" id="btnHeroBrowse">تصفح الرخام الآن</button>
-            <button type="button" class="btn home-btn-outline" id="btnHeroDashboards">لوحات التحكم</button>
+            <button type="button" class="btn home-btn-primary" id="btnHeroBrowse" data-open-demo="buyer">تصفح الرخام الآن</button>
+            <button type="button" class="btn home-btn-outline" id="btnHeroDashboards" data-open-demo="buyer">لوحات التحكم</button>
           </div>
           <div class="home-trust-strip">
             <span>فودافون كاش</span>
@@ -82,29 +83,81 @@
           <div class="hero-image-frame">
             <img
               id="heroMarbleImg"
-              src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1200&q=80"
+              src="data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%221200%22%20height%3D%22750%22%20viewBox%3D%220%200%201200%20750%22%3E%3Crect%20width%3D%221200%22%20height%3D%22750%22%20fill%3D%22%23EFECE6%22%2F%3E%3Cpath%20d%3D%22M0%20180%20Q280%2090%20560%20220%20T1200%20160%22%20stroke%3D%22%23C6B69C%22%20stroke-width%3D%226%22%20fill%3D%22none%22%20opacity%3D%220.65%22%2F%3E%3Cpath%20d%3D%22M0%20430%20Q360%20510%20720%20370%20T1200%20450%22%20stroke%3D%22%23B08D57%22%20stroke-width%3D%224%22%20fill%3D%22none%22%20opacity%3D%220.5%22%2F%3E%3Cpath%20d%3D%22M200%200%20Q310%20340%20190%20750%22%20stroke%3D%22%239E8C70%22%20stroke-width%3D%223.5%22%20fill%3D%22none%22%20opacity%3D%220.4%22%2F%3E%3Cpath%20d%3D%22M840%200%20Q740%20380%20910%20750%22%20stroke%3D%22%23B08D57%22%20stroke-width%3D%223%22%20fill%3D%22none%22%20opacity%3D%220.45%22%2F%3E%3Crect%20x%3D%2248%22%20y%3D%22610%22%20width%3D%22310%22%20height%3D%2274%22%20rx%3D%2210%22%20fill%3D%22%2318181B%22%20opacity%3D%220.88%22%2F%3E%3Ctext%20x%3D%22203%22%20y%3D%22656%22%20font-family%3D%22Tahoma%2C%20Arial%2C%20sans-serif%22%20font-size%3D%2224%22%20font-weight%3D%22bold%22%20fill%3D%22%23FFFFFF%22%20text-anchor%3D%22middle%22%3E%D8%A3%D9%84%D9%88%D8%A7%D8%AD%20%D8%B1%D8%AE%D8%A7%D9%85%20%D8%B7%D8%A8%D9%8A%D8%B9%D9%8A%20%D9%81%D8%A7%D8%AE%D8%B1%3C%2Ftext%3E%3C%2Fsvg%3E"
               alt="ألواح رخام طبيعي فاخر"
               class="hero-marble-img"
             />
           </div>
 
-          <div class="floating-card floating-card-1">
-            <div class="fc-title">جلالة فص — 850 ج.م / م²</div>
-            <div class="fc-sub"><span class="fc-star">★</span> 4.9 • فرز أول</div>
-          </div>
+          <div class="hero-floating-grid">
+            <div class="floating-card floating-card-1">
+              <div class="fc-title">جلالة فص — 850 ج.م / م²</div>
+              <div class="fc-sub"><span class="fc-star">★</span> 4.9 • فرز أول</div>
+            </div>
 
-          <div class="floating-card floating-card-2">
-            <div class="fc-check">✓</div>
-            <div>
-              <div class="fc-title">تأكيد فوري للدفع</div>
-              <div class="fc-sub">إنستا باي وفودافون كاش</div>
+            <div class="floating-card floating-card-2">
+              <div class="fc-check">✓</div>
+              <div>
+                <div class="fc-title">تأكيد فوري للدفع</div>
+                <div class="fc-sub">إنستا باي وفودافون كاش</div>
+              </div>
+            </div>
+
+            <div class="floating-card floating-card-3">
+              <div class="fc-title">تسعير فوري حسب الأمتار</div>
+              <div class="fc-sub">حساب السعر الصافي لحظياً</div>
             </div>
           </div>
+        </div>
+      </div>
+    </section>
 
-          <div class="floating-card floating-card-3">
-            <div class="fc-title">تسعير فوري حسب الأمتار</div>
-            <div class="fc-sub">حساب السعر الصافي لحظياً</div>
-          </div>
+    <!-- Role Quick-Access Card Buttons -->
+    <section id="rolesSection" class="home-section home-roles-section">
+      <div class="container">
+        <div class="home-section-head reveal">
+          <span class="section-kicker">تجربة الديمو التفاعلي</span>
+          <h2>جرّب المنصة الآن — كروت لوحات التحكم</h2>
+        </div>
+        <div class="home-roles-grid">
+          <button type="button" class="role-action-card reveal" data-open-demo="buyer" style="--delay: 0ms;">
+            <div class="service-icon-box" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+              </svg>
+            </div>
+            <div class="role-card-body">
+              <h3>دخول كمشتري</h3>
+              <p class="muted">تصفح المعارض، احسب الأمتار، وارفع إيصال الدفع.</p>
+            </div>
+            <span class="role-card-arrow" aria-hidden="true">←</span>
+          </button>
+
+          <button type="button" class="role-action-card reveal" data-open-demo="seller" style="--delay: 90ms;">
+            <div class="service-icon-box" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6"/>
+              </svg>
+            </div>
+            <div class="role-card-body">
+              <h3>دخول كبائع</h3>
+              <p class="muted">أضف منتجاتك، استقبل الطلبات، وسوِّ عمولة المنصة.</p>
+            </div>
+            <span class="role-card-arrow" aria-hidden="true">←</span>
+          </button>
+
+          <button type="button" class="role-action-card reveal" data-open-demo="admin" style="--delay: 180ms;">
+            <div class="service-icon-box" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              </svg>
+            </div>
+            <div class="role-card-body">
+              <h3>لوحة صاحب المنصة (الأدمن)</h3>
+              <p class="muted">راجع الأرباح، اعتمد الإيصالات، وأدر المستخدمين.</p>
+            </div>
+            <span class="role-card-arrow" aria-hidden="true">←</span>
+          </button>
         </div>
       </div>
     </section>
@@ -153,28 +206,27 @@
       </div>
     </section>
 
-    <!-- Services Section -->
+    <!-- Services Section (2x2 Grid on Mobile) -->
     <section id="servicesSection" class="home-section">
       <div class="container">
         <div class="home-section-head reveal">
           <span class="section-kicker">مميزات المنصة</span>
-          <h2>خدمات مصممة لسوق الرخام المصري</h2>
-          <p class="muted">كل ما تحتاجه لشراء أو بيع الرخام والجرانيت بوضوح وسرعة</p>
+          <h2>خدماتنا</h2>
         </div>
         <div class="home-services-grid">
           <article class="home-service-card reveal" style="--delay: 0ms;">
             <div class="service-icon-box" aria-hidden="true">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
                 <path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6"/>
               </svg>
             </div>
-            <h3>معارض ومصانع موثوقة</h3>
-            <p class="muted">تصفح أنواع الرخام المصري والمستورد من أكبر المعارض في مكان واحد.</p>
+            <h3>معارض موثوقة</h3>
+            <p class="muted">رخام مصري ومستورد من أكبر المصانع.</p>
           </article>
 
-          <article class="home-service-card reveal" style="--delay: 90ms;">
+          <article class="home-service-card reveal" style="--delay: 80ms;">
             <div class="service-icon-box" aria-hidden="true">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
                 <rect x="4" y="2" width="16" height="20" rx="2"/>
                 <line x1="8" y1="7" x2="16" y2="7"/>
                 <line x1="8" y1="12" x2="10" y2="12"/>
@@ -183,42 +235,41 @@
                 <line x1="14" y1="16" x2="16" y2="16"/>
               </svg>
             </div>
-            <h3>تسعير فوري وشفاف</h3>
-            <p class="muted">حدد عدد الأمتار والمواصفات واعرف السعر الصافي للرخام لحظياً.</p>
+            <h3>تسعير فوري</h3>
+            <p class="muted">احسب السعر الصافي حسب الأمتار لحظياً.</p>
           </article>
 
-          <article class="home-service-card reveal" style="--delay: 180ms;">
+          <article class="home-service-card reveal" style="--delay: 160ms;">
             <div class="service-icon-box" aria-hidden="true">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
                 <rect x="2" y="5" width="20" height="14" rx="2"/>
                 <line x1="2" y1="10" x2="22" y2="10"/>
                 <path d="M7 15h4"/>
               </svg>
             </div>
-            <h3>دفع إلكتروني آمن ومرن</h3>
-            <p class="muted">ادفع عبر فودافون كاش أو إنستا باي برفع الإيصال، أو بالاتفاق المباشر مع البائع.</p>
+            <h3>دفع إلكتروني مرن</h3>
+            <p class="muted">فودافون كاش وإنستا باي أو عند الاستلام.</p>
           </article>
 
-          <article class="home-service-card reveal" style="--delay: 270ms;">
+          <article class="home-service-card reveal" style="--delay: 240ms;">
             <div class="service-icon-box" aria-hidden="true">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
                 <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
               </svg>
             </div>
-            <h3>تواصل مباشر وتوصيل مرن</h3>
-            <p class="muted">اختر الاستلام الذاتي أو التوصيل وتواصل مع البائع مباشرة عبر واتساب أو الهاتف.</p>
+            <h3>تواصل مباشر</h3>
+            <p class="muted">واتساب ومكالمة مباشرة للتسليم والتوصيل.</p>
           </article>
         </div>
       </div>
     </section>
 
-    <!-- How It Works Section (Timeline) -->
+    <!-- How It Works Section -->
     <section id="howItWorksSection" class="home-section home-section-alt">
       <div class="container">
         <div class="home-section-head reveal">
           <span class="section-kicker">خطوات الطلب</span>
           <h2>كيف تعمل المنصة</h2>
-          <p class="muted">ثلاث خطوات بسيطة من التصفح وحتى استلام الرخام</p>
         </div>
         <div class="home-timeline">
           <article class="timeline-step reveal" style="--delay: 0ms;">
@@ -226,43 +277,28 @@
               <span class="step-num">01</span>
             </div>
             <div class="timeline-card">
-              <div class="timeline-icon" aria-hidden="true">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                  <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-                </svg>
-              </div>
               <h3>تصفح واختر رخامك</h3>
-              <p class="muted">فلتر حسب النوع واللون والتخانة وشاهد تقييمات المشترين والصور الإضافية.</p>
+              <p class="muted">فلتر حسب النوع واللون والتخانة وشاهد التقييمات.</p>
             </div>
           </article>
 
-          <article class="timeline-step reveal" style="--delay: 120ms;">
+          <article class="timeline-step reveal" style="--delay: 100ms;">
             <div class="timeline-marker">
               <span class="step-num">02</span>
             </div>
             <div class="timeline-card">
-              <div class="timeline-icon" aria-hidden="true">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
-                </svg>
-              </div>
               <h3>أرسل طلبك بسهولة</h3>
-              <p class="muted">حدد الأمتار وطريقة الاستلام والدفع في أقل من دقيقة.</p>
+              <p class="muted">حدد الأمتار وطريقة الاستلام والدفع في ثوانٍ.</p>
             </div>
           </article>
 
-          <article class="timeline-step reveal" style="--delay: 240ms;">
+          <article class="timeline-step reveal" style="--delay: 200ms;">
             <div class="timeline-marker">
               <span class="step-num">03</span>
             </div>
             <div class="timeline-card">
-              <div class="timeline-icon" aria-hidden="true">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                  <polyline points="20 6 9 17 4 12"/>
-                </svg>
-              </div>
               <h3>تأكيد وتواصل مباشر</h3>
-              <p class="muted">يقبل البائع طلبك ويتواصل معك فوراً لتأكيد التسليم أو التوصيل.</p>
+              <p class="muted">يقبل البائع طلبك ويتواصل معك لتسليم الأوردر.</p>
             </div>
           </article>
         </div>
@@ -276,9 +312,8 @@
           <div>
             <span class="section-kicker">مختارات المنصة</span>
             <h2>أحدث منتجات الرخام</h2>
-            <p class="muted">نماذج حقيقية مسحوبة مباشرة من معارض المنصة</p>
           </div>
-          <button type="button" class="btn home-btn-outline" id="btnHomeAllProducts">عرض كل المنتجات</button>
+          <button type="button" class="btn home-btn-outline btn-sm" id="btnHomeAllProducts" data-open-demo="buyer">عرض كل المنتجات</button>
         </div>
         <div id="homeFeaturedGrid" class="home-featured-grid"></div>
       </div>
@@ -291,9 +326,9 @@
           <div>
             <span class="section-kicker">انضم كمورد</span>
             <h2>هل تملك مصنع أو معرض رخام؟</h2>
-            <p class="home-dark-cta-sub">اعرض منتجاتك لآلاف المشترين وأدر طلباتك وعمولاتك من لوحة تحكم متكاملة.</p>
+            <p class="home-dark-cta-sub">اعرض منتجاتك وأدر طلباتك وعمولاتك من لوحة تحكم متكاملة.</p>
           </div>
-          <button type="button" class="btn home-btn-accent" id="btnHomeSellerPanel">افتح لوحة البائع الآن</button>
+          <button type="button" class="btn home-btn-accent" id="btnHomeSellerPanel" data-open-demo="seller">افتح لوحة البائع الآن</button>
         </div>
       </div>
     </section>
@@ -307,10 +342,10 @@
         </div>
         <nav class="home-footer-links" aria-label="روابط سريعة">
           <a href="#heroSection">الرئيسية</a>
+          <a href="#rolesSection">لوحات التحكم</a>
           <a href="#servicesSection">خدماتنا</a>
-          <a href="#howItWorksSection">كيف نعمل</a>
           <a href="#featuredProductsSection">أبرز المنتجات</a>
-          <button type="button" class="link-btn" id="btnFooterDashboards">لوحات التحكم</button>
+          <button type="button" class="link-btn" id="btnFooterDashboards" data-open-demo="buyer">دخول الديمو</button>
         </nav>
         <p class="muted">© 2026 رخام مصر — جميع الحقوق محفوظة</p>
       </div>
@@ -318,7 +353,7 @@
   </div>
 
   <!-- ==================== INTERACTIVE DEMO APP ==================== -->
-  <div id="demoAppView" class="hidden">
+  <div id="demo-view" class="hidden">
   <!-- Top Navigation / Role Switcher -->
   <header class="topbar">
     <div class="container topbar-inner">
@@ -901,6 +936,6 @@
   <!-- Toast Container -->
   <div id="toastContainer" class="toast-container" aria-live="polite"></div>
 
-  <script src="script.js"></script>
+  <script src="script.js?v=4"></script>
 </body>
 </html>

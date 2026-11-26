@@ -1464,7 +1464,7 @@
   }
 
   function setupHomeObservers() {
-    const reveals = document.querySelectorAll('#homePageView .reveal');
+    const reveals = document.querySelectorAll('#home-view .reveal');
     if ('IntersectionObserver' in window) {
       const revealObs = new IntersectionObserver((entries, obs) => {
         entries.forEach((entry) => {
@@ -1473,7 +1473,7 @@
             obs.unobserve(entry.target);
           }
         });
-      }, { threshold: 0.12 });
+      }, { threshold: 0.08 });
       reveals.forEach((el) => revealObs.observe(el));
 
       const statsEl = document.getElementById('statsStrip');
@@ -1488,7 +1488,7 @@
               obs.unobserve(entry.target);
             }
           });
-        }, { threshold: 0.2 });
+        }, { threshold: 0.15 });
         statsObs.observe(statsEl);
       }
     } else {
@@ -1504,14 +1504,21 @@
     const elP = document.getElementById('homeStatProducts');
     const elS = document.getElementById('homeStatSellers');
     const elO = document.getElementById('homeStatOrders');
-    elP.setAttribute('data-target', pCount);
-    elS.setAttribute('data-target', sCount);
-    elO.setAttribute('data-target', oCount);
-    elP.textContent = pCount;
-    elS.textContent = sCount;
-    elO.textContent = oCount;
+    if (elP) {
+      elP.setAttribute('data-target', pCount);
+      elP.textContent = pCount;
+    }
+    if (elS) {
+      elS.setAttribute('data-target', sCount);
+      elS.textContent = sCount;
+    }
+    if (elO) {
+      elO.setAttribute('data-target', oCount);
+      elO.textContent = oCount;
+    }
 
     const featuredGrid = document.getElementById('homeFeaturedGrid');
+    if (!featuredGrid) return;
     const featured = state.products.slice(0, 4);
     if (featured.length === 0) {
       featuredGrid.innerHTML = '<div class="empty-state">لا توجد منتجات مضافة حالياً.</div>';
@@ -1531,29 +1538,50 @@
             <span class="product-seller">${escapeHtml(seller ? seller.name : 'بائع غير معروف')}</span>
             <h3 class="product-title">${escapeHtml(p.type)}</h3>
             <div class="product-rating">${count > 0 ? `${renderStars(avg)} (${avg})` : 'جديد في المعرض'}</div>
+            <button type="button" class="btn home-btn-primary btn-sm btn-block" style="margin-top: auto;">اطلب الآن</button>
           </div>
         </article>
       `;
     }).join('');
   }
 
-  function showHomePage() {
-    document.getElementById('homePageView').classList.remove('hidden');
-    document.getElementById('demoAppView').classList.add('hidden');
+  function openHome() {
+    const homeEl = document.getElementById('home-view');
+    const demoEl = document.getElementById('demo-view');
+    if (homeEl) {
+      homeEl.classList.remove('hidden');
+      homeEl.style.display = 'block';
+    }
+    if (demoEl) {
+      demoEl.classList.add('hidden');
+      demoEl.style.display = 'none';
+    }
     statsAnimated = false;
     renderHomePage();
     setupHomeObservers();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo(0, 0);
   }
 
-  function enterDemoApp(targetRole) {
-    document.getElementById('homePageView').classList.add('hidden');
-    document.getElementById('demoAppView').classList.remove('hidden');
+  function openDemo(role = 'buyer') {
+    const homeEl = document.getElementById('home-view');
+    const demoEl = document.getElementById('demo-view');
     const drawer = document.getElementById('homeMobileDrawer');
     if (drawer) drawer.classList.remove('open');
-    switchRole(targetRole || state.activeRole || 'buyer');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (homeEl) {
+      homeEl.classList.add('hidden');
+      homeEl.style.display = 'none';
+    }
+    if (demoEl) {
+      demoEl.classList.remove('hidden');
+      demoEl.style.display = 'block';
+    }
+    switchRole(role || 'buyer');
+    renderAll();
+    window.scrollTo(0, 0);
   }
+
+  window.openDemo = openDemo;
+  window.openHome = openHome;
 
   function renderAll() {
     renderHomePage();
@@ -1567,34 +1595,22 @@
   // ==================== EVENT LISTENERS ====================
   function bindEvents() {
     // Home Page Navigation
-    document.getElementById('btnNavDashboards').addEventListener('click', () => enterDemoApp());
-    document.getElementById('btnHeroDashboards').addEventListener('click', () => enterDemoApp());
-    document.getElementById('btnFooterDashboards').addEventListener('click', () => enterDemoApp());
-    document.getElementById('btnHeroBrowse').addEventListener('click', () => enterDemoApp('buyer'));
-    document.getElementById('btnHomeAllProducts').addEventListener('click', () => enterDemoApp('buyer'));
-    document.getElementById('btnHomeSellerPanel').addEventListener('click', () => enterDemoApp('seller'));
-    document.getElementById('btnBackToHome').addEventListener('click', showHomePage);
+    document.getElementById('btnBackToHome').addEventListener('click', openHome);
 
     // Home Mobile Hamburger Drawer
     const mobileMenuBtn = document.getElementById('btnHomeMobileMenu');
     const mobileDrawer = document.getElementById('homeMobileDrawer');
-    mobileMenuBtn.addEventListener('click', () => {
-      const isOpen = mobileDrawer.classList.toggle('open');
-      mobileMenuBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-    });
-    document.querySelectorAll('.home-mobile-link').forEach((link) => {
-      link.addEventListener('click', () => {
-        mobileDrawer.classList.remove('open');
-        mobileMenuBtn.setAttribute('aria-expanded', 'false');
+    if (mobileMenuBtn && mobileDrawer) {
+      mobileMenuBtn.addEventListener('click', () => {
+        const isOpen = mobileDrawer.classList.toggle('open');
+        mobileMenuBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
       });
-    });
-
-    // Hero Image Offline SVG Fallback
-    const heroImg = document.getElementById('heroMarbleImg');
-    if (heroImg) {
-      heroImg.addEventListener('error', () => {
-        heroImg.src = makeMarbleSvg('#EDE2D1', '#B08D57', '#8A795D', 'رخام مصر الفاخر');
-      }, { once: true });
+      document.querySelectorAll('.home-mobile-link').forEach((link) => {
+        link.addEventListener('click', () => {
+          mobileDrawer.classList.remove('open');
+          mobileMenuBtn.setAttribute('aria-expanded', 'false');
+        });
+      });
     }
 
     // Role switching
@@ -1842,10 +1858,16 @@
 
     // Delegated Click Actions across views
     document.addEventListener('click', (e) => {
+      const openDemoBtn = e.target.closest('[data-open-demo]');
+      if (openDemoBtn) {
+        openDemo(openDemoBtn.getAttribute('data-open-demo') || 'buyer');
+        return;
+      }
+
       const homeProdBtn = e.target.closest('[data-home-product]');
       if (homeProdBtn) {
         const pid = homeProdBtn.getAttribute('data-home-product');
-        enterDemoApp('buyer');
+        openDemo('buyer');
         openProductDetail(pid);
         return;
       }
@@ -2009,8 +2031,16 @@
     });
   }
 
-  // Initialize
-  bindEvents();
-  switchRole(state.activeRole || 'buyer');
-  showHomePage();
+  // Initialize after DOM is ready
+  function initApp() {
+    bindEvents();
+    switchRole(state.activeRole || 'buyer');
+    openHome();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initApp);
+  } else {
+    initApp();
+  }
 })();

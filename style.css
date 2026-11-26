@@ -22,10 +22,21 @@
   --radius-sm: 6px;
 }
 
-* {
+*, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
 }
 
 body {
@@ -911,7 +922,7 @@ a {
 }
 
 /* ==================== HOME / LANDING PAGE (ARCHITECTURAL MARBLE) ==================== */
-#homePageView {
+#home-view {
   --home-bg: #F8F8F7;
   --home-surface: #FFFFFF;
   --home-dark: #18181B;
@@ -930,11 +941,11 @@ a {
 }
 
 .home-navbar-inner {
-  height: 64px;
+  height: 60px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
+  gap: 12px;
 }
 
 .home-brand-mark {
@@ -1117,44 +1128,46 @@ a {
 /* Hero Visual & Floating Cards */
 .home-hero-visual {
   position: relative;
-  padding: 16px;
+  width: 100%;
+  max-width: 100%;
 }
 
 .hero-image-frame {
+  width: 100%;
+  max-width: 100%;
   border-radius: 16px;
   overflow: hidden;
   border: 1px solid var(--border);
   background-color: var(--home-surface);
   box-shadow: var(--home-shadow);
-  aspect-ratio: 4 / 3;
 }
 
 .hero-marble-img {
   width: 100%;
-  height: 100%;
+  aspect-ratio: 16 / 10;
   object-fit: cover;
   display: block;
 }
 
 .floating-card {
   position: absolute;
-  background-color: rgba(255, 255, 255, 0.96);
+  background-color: rgba(255, 255, 255, 0.97);
   border: 1px solid var(--border);
   border-radius: 12px;
   padding: 10px 14px;
-  box-shadow: 0 12px 28px rgba(24, 24, 27, 0.12);
+  box-shadow: 0 10px 24px rgba(24, 24, 27, 0.1);
   animation: floatUpDown 4.5s ease-in-out infinite;
 }
 
 .floating-card-1 {
-  top: 0;
-  right: 0;
+  top: 12px;
+  right: 12px;
   animation-delay: 0s;
 }
 
 .floating-card-2 {
-  bottom: 4px;
-  left: 0;
+  bottom: 12px;
+  left: 12px;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -1162,9 +1175,69 @@ a {
 }
 
 .floating-card-3 {
-  bottom: 72px;
-  right: -8px;
+  bottom: 78px;
+  right: 12px;
   animation-delay: 2.3s;
+}
+
+/* Role Quick-Access Card Buttons */
+.home-roles-section {
+  padding-top: 12px;
+  padding-bottom: 48px;
+}
+
+.home-roles-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.role-action-card {
+  background-color: var(--home-surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  text-align: right;
+  font-family: inherit;
+  cursor: pointer;
+  width: 100%;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.role-action-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--home-shadow);
+  border-color: var(--home-accent);
+}
+
+.role-action-card .service-icon-box {
+  margin-bottom: 0;
+  flex-shrink: 0;
+}
+
+.role-card-body {
+  flex: 1;
+}
+
+.role-card-body h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--home-dark);
+  margin-bottom: 2px;
+}
+
+.role-card-body p {
+  font-size: 13px;
+}
+
+.role-card-arrow {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--home-accent);
+  flex-shrink: 0;
 }
 
 .fc-title {
@@ -1575,7 +1648,8 @@ a {
   .home-featured-grid {
     grid-template-columns: repeat(2, 1fr);
   }
-  .home-hero-grid {
+  .home-hero-grid,
+  .home-roles-grid {
     grid-template-columns: 1fr;
   }
 }
@@ -1589,24 +1663,60 @@ a {
   .home-hamburger {
     display: inline-flex;
   }
-  .radio-row-3,
-  .home-services-grid,
+  .home-hero {
+    padding: 24px 0 28px;
+  }
+  .home-hero-grid {
+    gap: 20px;
+  }
+  .home-hero-title {
+    font-size: 24px;
+  }
+  .hero-floating-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 12px;
+  }
+  .floating-card {
+    position: static;
+    padding: 10px;
+    box-shadow: 0 4px 12px rgba(24, 24, 27, 0.06);
+  }
+  .home-services-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .home-service-card {
+    padding: 14px 12px;
+  }
+  .home-featured-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
   .home-timeline,
-  .home-featured-grid,
-  .home-stats-strip-grid {
+  .home-roles-grid,
+  .radio-row-3 {
     grid-template-columns: 1fr;
   }
   .home-timeline::before {
     display: none;
   }
-  .home-hero {
-    padding: 32px 0 40px;
+  .home-stats-strip-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
   }
-  .home-hero-title {
-    font-size: 25px;
+  .strip-stat-num {
+    font-size: 24px;
+  }
+  .strip-stat-label {
+    font-size: 11px;
+  }
+  .home-section {
+    padding: 32px 0;
   }
   .home-dark-cta {
-    padding: 24px 20px;
+    padding: 22px 18px;
   }
   .payment-settings-inputs,
   .form-group-inline {
